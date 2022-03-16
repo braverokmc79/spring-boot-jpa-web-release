@@ -48,36 +48,14 @@
 
     <main role="main" class="container">
         <div class="starter-template">
-            <h1>게시판</h1>
+            <h1>게시판 전송 결과</h1>
         </div>
 
-        <div>총 건수 : <span th:text="${#lists.size(boards)}"></span></div>
+        <h1>Result</h1>
+        <p th:text="'title: ' + ${board.title}" />
+        <p th:text="'content: ' + ${board.content}" />
+        <a href="/greeting">Submit another message</a>
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">작성자</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr th:each="board , status:${boards}" >
-                <th th:classappend="${status.odd}==true? '':''"  th:text="${board.id}">아이디</th>
-                <td>
-                    <a th:href="@{/board/form(id=${board.id})}" th:text="${board.title}"> </a>
-                </td>
-                <td  th:text="${board.content}">Otto</td>
-            </tr>
-
-
-            </tbody>
-        </table>
-
-        <div class="text-right">
-            <a type="button" class="btn btn-primary" th:href="@{/board/form}" >쓰기</a>
-        </div>
     </main><!-- /.container -->
 
 
