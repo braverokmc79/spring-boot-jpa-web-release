@@ -120,15 +120,13 @@
 
 		<!-- ============================- -->
 		<!-- 시큐리티 라이브러리 시작 -->
+		<!-- spring-boot-starter-security 추가 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
-		<!-- spring-boot-starter-security   추가 -->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-security</artifactId>-->
-<!--		</dependency>-->
-
-
-		<!-- 유효성 검증을  위해 spring-boot-starter-validation 추가 -->
+		<!-- 유효성 검증을 위해 spring-boot-starter-validation 추가 -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -137,27 +135,24 @@
 
 
 		<!-- 시큐리티 테스틀 위해 추가 -->
-<!--
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
--->
 
 		<!-- jsp 사용시 로그인 상태 유무 권한 설정할 수 있게  추가 -->
-<!--
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
--->
 
 		<!-- thymeleaf  에서 로그인 상태 유무 권한 설정할 수 있게  추가 -->
-<!--		<dependency>
+		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
-		</dependency>-->
+		</dependency>
 
 		<!-- 시큐리티 라이브러리 끝 -->
 		<!-- ============================- -->

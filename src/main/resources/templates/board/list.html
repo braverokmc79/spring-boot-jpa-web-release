@@ -86,7 +86,6 @@
 
 
 
-
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
 
@@ -98,7 +97,6 @@
                     th:each="i : ${#numbers.sequence(startPage, endPage)}" >
                     <a class="page-link" th:href="@{/board/list(page=${i} , searchText=${param.searchText}  ) }" th:text="${i}">1</a>
                 </li>
-
 
                 <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber+1} ?'disabled':''" >
                     <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 2} , searchText=${param.searchText} ) }" >Next</a>

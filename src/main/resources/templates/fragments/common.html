@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head(title)">
 
     <!-- Required meta tags -->
@@ -30,8 +31,38 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/board/list}" th:classappend="${menu}=='board' ? 'active':''" >게시판<span class="sr-only" th:if="${menu}=='board'">(current)</span></a>
             </li>
-
         </ul>
+
+        <div class="my-2 my-lg-0">
+
+            <form th:action="@{/logout}" method="post" id="logout-frm" name="logout"  sec:authorize="isAuthenticated()">
+
+                <ul  class="navbar-nav mr-auto">
+                    <li class="nav-item" >
+                       <span sec:authentication="name" class="nav-link text-white">Bob</span>
+                    </li>
+
+                    <li class="nav-item" >
+                         <span sec:authentication="principal.authorities"  class="nav-link text-white">[ROLE_USER, ROLE_ADMIN]</span>
+                    </li>
+
+                    <li class="nav-item" >
+                         <a style="cursor: pointer"  class="nav-link text-white"  onclick="document.logout.submit()" >로그아웃</a>
+                    </li>
+                </ul>
+            </form>
+
+            <ul sec:authorize="isAnonymous()" class="navbar-nav mr-auto">
+                <li class="nav-item" >
+                    <a   class="nav-link active" href="/account/login">로그인</a>
+                </li>
+
+                <li class="nav-item" >
+                    <a   class="nav-link active" href="/account/register">회원가입</a>
+                </li>
+            </ul>
+
+        </div>
     </div>
 </nav>
 
