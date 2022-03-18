@@ -2,12 +2,15 @@ package com.godcoder.myhome.controller;
 
 import com.godcoder.myhome.model.Board;
 import com.godcoder.myhome.repository.BoardRepository;
+import com.godcoder.myhome.service.BoardService;
 import com.godcoder.myhome.validator.BoardValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +31,9 @@ public class BoardController {
 
     @Autowired
     private BoardValidator boardValidator;
+
+    @Autowired
+    private BoardService boardService;
 
 
     @GetMapping("/list")
@@ -66,14 +72,21 @@ public class BoardController {
         return "board/form";
     }
 
+
     @PostMapping("/form")
-    public String boardSubmit(@Valid Board board, BindingResult  bindingResult , Model model) {
+    public String boardSubmit(@Valid Board board, BindingResult  bindingResult ,
+                              Authentication authentication,
+                              Model model) {
         boardValidator.validate(board, bindingResult);
 
         if(bindingResult.hasErrors()){
             return "board/form";
         }
-        boardRepository.save(board);
+
+        //Authentication a = SecurityContextHolder.getContext().getAuthentication();
+
+        String username=authentication.getName();
+        boardService.save(username, board);
         model.addAttribute("board", board);
         return "redirect:/board/list";
     }

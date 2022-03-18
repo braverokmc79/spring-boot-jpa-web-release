@@ -63,21 +63,26 @@
 
 
         <table class="table table-striped">
+            <colgroup>
+                <col width="10%">
+                <col width="60%">
+                <col width="30%">
+            </colgroup>
             <thead>
-            <tr>
+            <tr class="text-center">
                 <th scope="col">번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">내용</th>
+                <th scope="col" >제목</th>
+                <th scope="col">작성자</th>
             </tr>
             </thead>
             <tbody>
 
-            <tr th:each="board , status:${boards}" >
+            <tr th:each="board , status:${boards}"  class="text-center">
                 <th  th:text="${num - status.index}">아이디</th>
                 <td>
                     <a th:href="@{/board/form(id=${board.id})}" th:text="${board.title}"> </a>
                 </td>
-                <td  th:text="${board.content}">Otto</td>
+                <td  th:text="${board.user.username}">Otto</td>
             </tr>
 
             </tbody>

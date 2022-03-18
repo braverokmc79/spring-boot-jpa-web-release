@@ -28,7 +28,7 @@ public class User {
     private Boolean enabled;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -36,6 +36,8 @@ public class User {
     )
     private List<Role>  roles=new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = false)
+    private List<Board> boards=new ArrayList<>();
 
 
 }
