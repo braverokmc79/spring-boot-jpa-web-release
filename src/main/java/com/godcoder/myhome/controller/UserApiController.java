@@ -4,6 +4,7 @@ import com.godcoder.myhome.model.Board;
 import com.godcoder.myhome.model.User;
 import com.godcoder.myhome.repository.UserRepository;
 import com.godcoder.myhome.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class UserApiController {
 
 
@@ -28,12 +30,21 @@ public class UserApiController {
     List<User> all(@RequestParam(required = false, defaultValue = "") Long id
             , @RequestParam(required = false, defaultValue = "") String username) {
 
-        if( StringUtils.isEmpty(username)){
-            return repository.findAll();
-        }else{
-            return repository.findByIdOrUsername(id, username);
-        }
+//        if( StringUtils.isEmpty(username)){
+//            return repository.findAll();
+//        }else{
+//            return repository.findByIdOrUsername(id, username);
+//        }
+
+        List<User> users =repository.findAll();
+        log.info("getBoserd() 호출전");
+        log.info("getBoards().size()  -  {} :" , users.get(0).getBoards().size() );
+        //log.info("getBoards().size()  제목 0 -  {} :" , users.get(0).getBoards().get(0).getTitle() );
+        log.info("getBoserd()  호출후");
+        return users;
     }
+
+
 
     // end::get-aggregate-root[]
 
