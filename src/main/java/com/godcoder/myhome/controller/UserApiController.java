@@ -1,9 +1,12 @@
 package com.godcoder.myhome.controller;
 
 import com.godcoder.myhome.model.Board;
+import com.godcoder.myhome.model.QUser;
 import com.godcoder.myhome.model.User;
 import com.godcoder.myhome.repository.UserRepository;
 import com.godcoder.myhome.repository.UserRepository;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
@@ -22,6 +25,53 @@ public class UserApiController {
     UserApiController(UserRepository repository) {
         this.repository = repository;
     }
+
+
+    @GetMapping("/users2")
+    Iterable<User> findUserQuery(@RequestParam(required = false, defaultValue = "") String method,
+                             @RequestParam(required = false) String text
+        ){
+
+        Iterable<User> users=null;
+        if("query".equals(method)){
+             users=repository.findByUsernameQuery(text);
+        }else if("nativeQuery".equals(method)){
+            users=repository.findByUsernameNativedQuery(text);
+        }else if("querydsl".equals(method)){
+
+//            QCustomer customer = QCustomer.customer;
+//            JPAQuery<?> query = new JPAQuery<Void>(entityManager);
+//            Customer bob = query.select(customer)
+//                    .from(customer)
+//                    .where(customer.firstName.eq("Bob"))
+//                    .fetchOne();
+//
+//            Predicate predicate=users
+            log.info("querydsl  검색 ");
+            QUser user =QUser.user;
+            BooleanExpression b=user.username.contains(text);
+            if(true){
+                b=b.and(user.username.eq("HI"));
+            }
+
+//            Predicate predicate =user.username.contains(text);
+//            users=repository.findAll(predicate);
+
+        }else if("querydslCustom".equals(method)){
+            log.info("querydslCustom  검색 ");
+            users=repository.findByUsernameCustom(text);
+
+
+        }else if("querydslJDBC".equals(method)){
+            log.info("querydslJDBC  검색 ");
+            users=repository.findByUsernameJDBC(text);
+
+        }else{
+            users=repository.findAll();
+        }
+        return  users;
+    }
+
 
 
     // Aggregate root
@@ -83,6 +133,8 @@ public class UserApiController {
     void deleteUser(@PathVariable Long id) {
         repository.deleteById(id);
     }
-    
+
+
+
 
 }
