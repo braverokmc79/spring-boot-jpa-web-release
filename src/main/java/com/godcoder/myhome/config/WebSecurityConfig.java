@@ -28,8 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Lazy
     private  PasswordEncoder passwordEncoder;
 
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -64,11 +62,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         + "where u.username = ?");
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }

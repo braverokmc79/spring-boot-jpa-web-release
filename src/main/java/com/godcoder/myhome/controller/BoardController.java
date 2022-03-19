@@ -4,11 +4,16 @@ import com.godcoder.myhome.model.Board;
 import com.godcoder.myhome.repository.BoardRepository;
 import com.godcoder.myhome.service.BoardService;
 import com.godcoder.myhome.validator.BoardValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,12 +23,15 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityExistsException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/board")
+@Slf4j
 public class BoardController {
 
     @Autowired
@@ -89,6 +97,30 @@ public class BoardController {
         boardService.save(username, board);
         model.addAttribute("board", board);
         return "redirect:/board/list";
+    }
+
+
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseBody
+    public ResponseEntity boardDelete(@PathVariable Long id, HttpServletRequest request){
+        Boolean roleAdmin=request.isUserInRole("ROLE_ADMIN");
+        if(roleAdmin){
+            log.info(" 권한2 :   관리자2 " );
+            boardRepository.deleteById(id);
+            return new ResponseEntity<Long>(id,HttpStatus.OK);
+        }
+        return new ResponseEntity<Long>(id,HttpStatus.BAD_REQUEST);
+    }
+
+
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/delete2/{id}")
+    @ResponseBody
+    public ResponseEntity boardDelete2(@PathVariable Long id){
+        log.info(" 삭제 되었습니다. :   {} " , id  );
+        boardRepository.deleteById(id);
+        return new ResponseEntity<Long>(id,HttpStatus.OK);
     }
 
 

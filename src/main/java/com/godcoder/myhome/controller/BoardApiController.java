@@ -3,6 +3,11 @@ package com.godcoder.myhome.controller;
 
 import com.godcoder.myhome.model.Board;
 import com.godcoder.myhome.repository.BoardRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
@@ -11,9 +16,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 class BoardApiController {
 
     private final BoardRepository repository;
+
+    @Autowired
+    private BoardRepository boardRepository;
+
 
     BoardApiController(BoardRepository repository) {
         this.repository = repository;
@@ -65,5 +75,29 @@ class BoardApiController {
     void deleteBoard(@PathVariable Long id) {
         repository.deleteById(id);
     }
+
+
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseBody
+    public ResponseEntity boardDelete(@PathVariable Long id){
+        log.info(" 삭제 되었습니다. :   {} " , id  );
+        boardRepository.deleteById(id);
+        return new ResponseEntity<Long>(id, HttpStatus.OK);
+    }
+
+
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/delete2/{id}")
+    @ResponseBody
+    public ResponseEntity boardDelete2(@PathVariable Long id){
+        log.info(" 삭제 되었습니다. :   {} " , id  );
+        boardRepository.deleteById(id);
+        return new ResponseEntity<Long>(id, HttpStatus.OK);
+    }
+
+
+
+
 
 }
